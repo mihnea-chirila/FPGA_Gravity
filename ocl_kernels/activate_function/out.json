@@ -1,0 +1,64 @@
+{
+    "schema_version": {
+        "schema": "JSON",
+        "creation_date": "Wed Dec 14 16:56:54 2022 GMT"
+    },
+    "devices": [
+        {
+            "interface_type": "pcie",
+            "device_id": "0000:01:00.0",
+            "platform": {
+                "bdf": "0000:01:00.0",
+                "flash_type": "spi",
+                "hardware": {
+                    "serial_num": "2132040CR014"
+                },
+                "device_properties": {
+                    "board_type": "u250",
+                    "board_name": "ALVEO U250 PQ",
+                    "config_mode": "7",
+                    "max_power_watts": "150W"
+                },
+                "current_partitions": "",
+                "current_shell": {
+                    "vbnv": "xilinx_u250_gen3x16_base_4",
+                    "logic-uuid": "F8DAC62E-49D9-B0AA-E9FC-6F260D9D0DFB",
+                    "interface-uuid": "807A580E-5F50-7D48-484D-26C2217AA787",
+                    "id": "0xf8dac62e49d9b0aa",
+                    "sc_version": "4.6.20"
+                },
+                "status": {
+                    "shell": "true",
+                    "sc": "true",
+                    "is_factory": "false"
+                },
+                "available_shells": [
+                    {
+                        "vbnv": "xilinx_u250_gen3x16_base_4",
+                        "sc_version": "4.6.20",
+                        "id": "0xf8dac62e49d9b0aa",
+                        "logic-uuid": "F8DAC62E-49D9-B0AA-E9FC-6F260D9D0DFB",
+                        "file": "\/lib\/firmware\/xilinx\/f8dac62e49d9b0aae9fc6f260d9d0dfb\/partition.xsabin"
+                    }
+                ],
+                "available_partitions": [
+                    {
+                        "vbnv": "xilinx_u250_gen3x16_xdma_shell_4_1",
+                        "logic-uuid": "12C8FAFB-0632-499D-B1C0-C6676271B8A6",
+                        "interface-uuid": "807A580E-5F50-7D48-484D-26C2217AA787",
+                        "file": "\/lib\/firmware\/xilinx\/12c8fafb0632499db1c0c6676271b8a6\/partition.xsabin"
+                    }
+                ],
+                "macs": [
+                    {
+                        "address": "00:0A:35:0A:45:E2"
+                    },
+                    {
+                        "address": "00:0A:35:0A:45:E3"
+                    }
+                ]
+            }
+        }
+    ]
+}
+
