@@ -251,7 +251,7 @@ int main(int argc, char** argv) {
 	 
 	for(int i=0; i<test_n; i++) {
 	  	kernel_duration = 0;	  
-	  	memset(s, 0, 10);
+	  	memset(s, 0, 19);
 		digit = i;
 		dec_cursor = 10000;
 		s_idx = 10;
