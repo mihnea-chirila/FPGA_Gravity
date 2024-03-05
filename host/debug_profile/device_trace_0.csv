@@ -1,0 +1,39 @@
+HEADER
+VTF File Version,1.1
+VTF File Type,1
+PID,1331394
+Generated on,2023-09-22 16:38:20
+Resolution,ms
+Min Resolution,ns
+Trace Version,1.1
+TraceID,1331396
+XRT  Version,2.13.466
+Tool Version,2022.1
+Platform,
+Target,System Run
+
+STRUCTURE
+Group_Start,
+Group_End,
+
+MAPPING
+5,Context creation and loading of xclbin
+1,Phase 1
+4,Phase 2
+2,Start of execution to context creation
+3,Test data created
+12,clCreateCommandQueue
+11,clCreateContext
+14,clCreateProgramWithBinary
+9,clGetDeviceIDs
+13,clGetDeviceInfo
+6,clGetExtensionFunctionAddress
+7,clGetExtensionFunctionAddressForPlatform
+8,clGetPlatformInfo
+15,clReleaseDevice
+10,clRetainDevice
+
+EVENTS
+
+DEPENDENCIES
+

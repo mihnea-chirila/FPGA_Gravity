@@ -1,0 +1,57 @@
+HEADER
+VTF File Version,1.1
+VTF File Type,1
+PID,2466186
+Generated on,2023-03-09 10:09:59
+Resolution,ms
+Min Resolution,ns
+Trace Version,1.1
+TraceID,2466187
+XRT  Version,2.13.466
+Tool Version,2022.1
+Platform,xilinx:pcie-hw-em:7v3:1.0
+Target,Hardware Emulation
+
+STRUCTURE
+Group_Start,xilinx:pcie-hw-em:7v3:1.0
+Group_Start,vadd.link.xclbin
+Group_Start,Compute Unit krnl_vadd_rtl_1 - No Trace,Activity in accelerator krnl_vadd_rtl:krnl_vadd_rtl_1
+Group_End,krnl_vadd_rtl_1
+Group_End,vadd.link.xclbin
+Group_End,xilinx:pcie-hw-em:7v3:1.0
+
+MAPPING
+25,0:0:0
+23,1:1:1
+18,bank1
+13,clCreateBuffer
+7,clCreateCommandQueue
+6,clCreateContext
+11,clCreateKernel
+9,clCreateProgramWithBinary
+16,clEnqueueMigrateMemObjects
+19,clEnqueueTask
+24,clFinish
+4,clGetDeviceIDs
+8,clGetDeviceInfo
+1,clGetExtensionFunctionAddress
+2,clGetExtensionFunctionAddressForPlatform
+3,clGetPlatformInfo
+28,clReleaseCommandQueue
+27,clReleaseContext
+10,clReleaseDevice
+26,clReleaseKernel
+17,clReleaseMemObject
+12,clReleaseProgram
+5,clRetainDevice
+15,clRetainMemObject
+14,clSetKernelArg
+22,krnl_vadd_rtl
+29,krnl_vadd_rtl_1
+21,vadd.link
+20,xilinx:pcie-hw-em:7v3:1.0
+
+EVENTS
+
+DEPENDENCIES
+

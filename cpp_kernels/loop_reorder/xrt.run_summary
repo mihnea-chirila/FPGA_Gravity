@@ -1,0 +1,19 @@
+{
+    "schema_version": {
+        "major": "1",
+        "minor": "2",
+        "patch": "0"
+    },
+    "generation": {
+        "this_file": "\/home\/mchirila\/workspace\/Vitis_Accel_Examples\/cpp_kernels\/loop_reorder\/xrt.run_summary",
+        "source": "vp",
+        "PID": "1592661",
+        "timestamp": "1695678655188"
+    },
+    "files": [
+        {
+            "name": "opencl_trace.csv",
+            "type": "VP_TRACE"
+        }
+    ]
+}

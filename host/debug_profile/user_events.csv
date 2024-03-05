@@ -1,0 +1,80 @@
+HEADER
+VTF File Version,1.1
+VTF File Type,0
+PID,1331478
+Generated on,2023-09-22 16:40:17
+Resolution,ms
+Min Resolution,ns
+Trace Version,1.1
+TraceID,1331478
+
+STRUCTURE
+Group_Start,User and Internal Events
+Dynamic_Row,1,General,User Events from APIs and Internally Generated Events
+Group_End,User and Internal Events
+
+MAPPING
+36,0:0:0
+34,1:1:1
+22,Beffers created
+18,Context created and Xclbin loaded
+5,Context creation and loading of xclbin
+20,Kernel and buffer creation
+38,Kernels finished
+29,PLRAM[3]
+1,Phase 1
+4,Phase 2
+19,Phase 3
+23,Phase 4
+39,Phase 5
+24,Setting up arguments and running kernel
+2,Start of execution to context creation
+3,Test data created
+40,Verification
+41,Verification done
+21,clCreateBuffer
+12,clCreateCommandQueue
+11,clCreateContext
+16,clCreateKernel
+14,clCreateProgramWithBinary
+27,clEnqueueMigrateMemObjects
+30,clEnqueueTask
+35,clFinish
+9,clGetDeviceIDs
+13,clGetDeviceInfo
+37,clGetEventProfilingInfo
+6,clGetExtensionFunctionAddress
+7,clGetExtensionFunctionAddressForPlatform
+8,clGetPlatformInfo
+44,clReleaseCommandQueue
+45,clReleaseContext
+15,clReleaseDevice
+42,clReleaseEvent
+43,clReleaseKernel
+28,clReleaseMemObject
+17,clReleaseProgram
+10,clRetainDevice
+26,clRetainMemObject
+25,clSetKernelArg
+33,krnl_vadd
+32,vadd.link
+31,xilinx:pcie-hw-em:7v3:1.0
+
+EVENTS
+1,0,0.092848,1,USER_RANGE,1,2
+2,1,0.132155,1,USER_RANGE
+3,0,0.133317,1,USER_MARKER,3
+4,0,0.134919,1,USER_RANGE,4,5
+63,4,145.076339,1,USER_RANGE
+64,0,145.078196,1,USER_MARKER,18
+65,0,145.082986,1,USER_RANGE,19,20
+70,65,145.254294,1,USER_RANGE
+71,0,145.255379,1,USER_MARKER,22
+72,0,145.257292,1,USER_RANGE,23,24
+115,72,146.509434,1,USER_RANGE
+116,0,146.510334,1,USER_MARKER,38
+117,0,146.512086,1,USER_RANGE,39,40
+118,117,146.514822,1,USER_RANGE
+119,0,146.515296,1,USER_MARKER,41
+
+DEPENDENCIES
