@@ -17,14 +17,16 @@
 #include <vector>
 #include <unistd.h>
 
-#define REAL_T float
+#define REAL_T int32_t
 typedef REAL_T real_t;
+
+#define FIXED_BITS 8
 
 using std::vector;
 
 int mem_size = 721696;
 int mem_size_hard = 358440;
-int x_size_bytes = 28*28*sizeof(float);
+int x_size_bytes = 28*28*sizeof(int32_t);
 int num_cu = 1;
 
 uint64_t get_duration_ns (const cl::Event &event) {
@@ -62,9 +64,9 @@ uint64_t activate_setup(
 	std::vector<cl::Buffer>& mem_buf,
 	std::vector<cl::Buffer>& x_buf,
 	std::vector<cl::Buffer>& z_buf,
-	vector<float, aligned_allocator<float>>& mem,
-	vector<float, aligned_allocator<float>>& x,
-	vector<float, aligned_allocator<float>>& z,
+	vector<int32_t, aligned_allocator<int32_t>>& mem,
+	vector<int32_t, aligned_allocator<int32_t>>& x,
+	vector<int32_t, aligned_allocator<int32_t>>& z,
 	int n_test
 ){
     
@@ -139,11 +141,12 @@ uint64_t activate_setup(
 		int32_t x_offset, z_offset;
 		// narg++;
 		// Launch the Kernel
-		x_offset = x_size_bytes / sizeof(float);
+		x_offset = x_size_bytes / sizeof(int32_t);
 		z_offset = 10;
 		OCL_CHECK(err, err = krnl_activate[i].setArg(narg++, x_offset));
 		OCL_CHECK(err, err = krnl_activate[i].setArg(narg++, z_offset));
 		OCL_CHECK(err, err = krnl_activate[i].setArg(narg++, n_test));
+		OCL_CHECK(err, err = krnl_activate[i].setArg(narg++, FIXED_BITS));
 
 		// These commands will load the source_a and source_b vectors from the host
 		// application and into the buffer_a and buffer_b cl::Buffer objects. The data
@@ -213,13 +216,14 @@ int main(int argc, char** argv) {
   	//allocator if user wish to Create Buffer/Memory Object to align user buffer
   	//to the page boundary. It will ensure that user buffer will be used when 
   	//user create Buffer/Mem Object.
-  	std::vector<float,aligned_allocator<float>> mem(mem_size/sizeof(float));
-  	std::vector<float,aligned_allocator<float>> x(test_n*x_size_bytes/sizeof(float));
-  	std::vector<float,aligned_allocator<float>> z(test_n*10);
-	std::vector<float,aligned_allocator<float>> z_gold(test_n);
+  	std::vector<int32_t,aligned_allocator<int32_t>> mem(mem_size/sizeof(int32_t));
+  	std::vector<int32_t,aligned_allocator<int32_t>> x(test_n*x_size_bytes/sizeof(int32_t));
+  	std::vector<int32_t,aligned_allocator<int32_t>> z(test_n*10);
+	std::vector<int32_t,aligned_allocator<int32_t>> z_gold(test_n);
 
   	//Create the test data and Software Result 
 	char buf[256], s[19];
+	float in_data;
   	FILE *fptr_mem, *fptr_x[test_n], *fptr_z, *fptr_out;
   	fptr_mem = fopen("src/data/mem.txt", "r+");
   	if(fptr_mem == NULL) {
@@ -228,8 +232,10 @@ int main(int argc, char** argv) {
   	}
   	for(int i=0; i<(int)mem_size_hard/sizeof(float); i++) {
 	 	/*printf("%f ", *((float *)(mem)+i));*/
-	 	fscanf(fptr_mem, "%f ", &mem[i]);
-	 	//printf("%f ", (float)mem[i]);
+	 	fscanf(fptr_mem, "%f ", &in_data);
+		// mem[i] = (int)(in_data*1000000);
+		mem[i] = (int)(in_data * (1 << FIXED_BITS));
+	 	// printf("%d ", mem[i]);
 	}
 
 	fptr_z = fopen("src/data/labels.txt", "r+");
@@ -239,7 +245,7 @@ int main(int argc, char** argv) {
 	}
 	for(int i=0; i<test_n; i++) {
 	  	/*printf("%f ", *((float *)(mem)+i));*/
-	  	fscanf(fptr_z, "%f ", &z_gold[i]);
+	  	fscanf(fptr_z, "%d ", &z_gold[i]);
 	  	//printf("%d ", z[i]);
 	}
 	fclose(fptr_mem);
@@ -280,7 +286,10 @@ int main(int argc, char** argv) {
 
 		}
 		for (int k=0; k<(28*28); ++k) {
-			fscanf(fptr_x[i], "%f ", &x[i*28*28+k]);
+			fscanf(fptr_x[i], "%f ", &in_data);
+			// printf("in[%d]: %f\t", k, in_data);
+			// x[i*28*28+k] = (int)(in_data*1000000);
+			x[i*28*28+k] = (int)(in_data * (1 << FIXED_BITS));
 		}
 		fclose(fptr_x[i]);
 	}
@@ -315,8 +324,8 @@ int main(int argc, char** argv) {
 			// out = &mem[180404];
 
 			// for (int j=0; j<10; j++)
-			// 	printf("out[%d]=%f\n",j,z[i*10+j]);
-			// printf("z_gold[%d] = %f\n", i, z_gold[i]);
+			// 	printf("out[%d]=%d\n",j,z[i*10+j]);
+			// printf("z_gold[%d] = %d\n", i, z_gold[i]);
 			if (argmax(out, 10) != z_gold[i]) {
 				error++;
 			}

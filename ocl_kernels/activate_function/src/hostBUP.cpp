@@ -205,9 +205,9 @@ int main(int argc, char** argv) {
 	std::vector<float,aligned_allocator<float>> z_gold(test_n);
 
   	//Create the test data and Software Result 
-	char buf[256], s[14];
+	char buf[256], s[19];
   	FILE *fptr_mem, *fptr_x[test_n], *fptr_z, *fptr_out;
-  	fptr_mem = fopen("src/mem.txt", "r+");
+  	fptr_mem = fopen("src/data/mem.txt", "r+");
   	if(fptr_mem == NULL) {
 		strerror_r(errno, buf, 256);
 		printf("\nERRROR! err: %s\n", buf);
@@ -218,7 +218,7 @@ int main(int argc, char** argv) {
 	 	//printf("%f ", (float)mem[i]);
 	}
 
-	fptr_z = fopen("src/labels.txt", "r+");
+	fptr_z = fopen("src/data/labels.txt", "r+");
 	if(fptr_z == NULL) {
 		strerror_r(errno, buf, 256);
 	  	printf("\nERRROR! err: %s\n", buf);
@@ -240,14 +240,10 @@ int main(int argc, char** argv) {
 	  	memset(s, 0, 10);
 		digit = i;
 		dec_cursor = 10000;
-		s_idx = 5;
-		s[0] = 's';
-		s[1] = 'r';
-		s[2] = 'c';
-		s[3] = '/';
-		s[4] = 'x';
+		s_idx = 10;
+		strcpy(s,"src/data/x");
 		if(digit == 0)
-			*(s+5) = i + 48;
+			*(s+s_idx) = i + 48;
 		else {
 			while(digit/dec_cursor == 0) {
 				digit = digit % dec_cursor;

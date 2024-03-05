@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.xilinx.opencl.launch.openCLLaunch">
+    <booleanAttribute key="POWER_PROFILE" value="false"/>
+    <stringAttribute key="SDACCEL_DATA_TRANSFER_TRACE" value="coarse"/>
+    <booleanAttribute key="SDACCEL_ENABLE_LOP_TRACE" value="false"/>
+    <booleanAttribute key="SDACCEL_ENABLE_PROFILE" value="true"/>
+    <stringAttribute key="SDACCEL_STALL_TRACE" value="off"/>
+    <stringAttribute key="SDACCEL_TIMELINE_REPORT_STRING" value="Default"/>
+    <booleanAttribute key="SDX_DO_BINARY_CONTAINERS_ARGS" value="false"/>
+    <booleanAttribute key="SDX_USE_DEFAULT_WORKING_DIR" value="false"/>
+    <stringAttribute key="TRACE_BUFFER_SIZE" value="1M"/>
+    <stringAttribute key="TRACE_INTERVAL" value="10"/>
+    <booleanAttribute key="TRACE_OFFLOAD" value="false"/>
+    <stringAttribute key="com.xilinx.ide.dc.standalone.debug.executable" value="/home/mchirila/workspace/Vitis_Accel_Examples/ocl_kernels/activate_function/ocl_gravity"/>
+    <stringAttribute key="com.xilinx.ide.dc.standalone.debug.kernels" value="run_activate"/>
+    <stringAttribute key="com.xilinx.ide.dc.standalone.debug.target.flow" value="sw_emu"/>
+    <booleanAttribute key="com.xilinx.sdx.internal.opencl.language.ui.launch.ui.stop_at_kernal_start" value="true"/>
+    <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="${env_var:XILINX_VITIS}/${env_var:RDI_PLATFORM}/tools/gdb/gdb-9.2/bin/gdb"/>
+    <booleanAttribute key="org.eclipse.cdt.dsf.gdb.internal.ui.launching.LocalApplicationCDebuggerTab.DEFAULTS_SET" value="true"/>
+    <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="gdb"/>
+    <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
+    <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
+    <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="main"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_ARGUMENTS" value="build_dir.sw_emu.xilinx_u250_gen3x16_xdma_4_1_202210_1/mmult.xclbin"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="/home/mchirila/workspace/Vitis_Accel_Examples/ocl_kernels/activate_function/ocl_gravity"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="&lt;None&gt;"/>
+    <stringAttribute key="org.eclipse.cdt.launch.WORKING_DIRECTORY" value="/home/mchirila/workspace/Vitis_Accel_Examples/ocl_kernels/activate_function"/>
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="XILINX_OPENCL" value="${env_var:XILINX_VITIS}/"/>
+        <mapEntry key="XILINX_VITIS" value="${env_var:XILINX_VITIS}/"/>
+        <mapEntry key="XRT_INI_PATH" value="/home/mchirila/workspace/Vitis_Accel_Examples/ocl_kernels/activate_function/xrt.ini"/>
+    </mapAttribute>
+    <stringAttribute key="org.eclipse.debug.ui.ATTR_CAPTURE_IN_FILE" value="/home/mchirila/workspace/Vitis_Accel_Examples/ocl_kernels/activate_function/standalone_debug_dc_sw_emu_ocl_gravity.launch.ui.log"/>
+    <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
+</launchConfiguration>

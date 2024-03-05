@@ -22,7 +22,7 @@ int x_offset,
 float *A,
 float *z) {
 	// __local 
-	float local_in[784] __attribute__((xcl_array_partition(cyclic,34,1)));
+	float local_in[784] __attribute__((xcl_array_partition(cyclic,2,1)));
 
 
   	// __global float *p = m_+179220;
@@ -39,7 +39,7 @@ float *z) {
   	// __local 
 	// float z[100] __attribute__((xcl_array_partition(cyclic,50,1)));
 
-  	int i, j;
+  	int i, j, flag=0;
 
   	__attribute__((xcl_pipeline_loop(1)))
   	MAC1_ADD_1: for (i=0; i<100; ++i) 
@@ -47,21 +47,33 @@ float *z) {
 
   	__attribute__((xcl_pipeline_loop))
   	MAC1_1: for (j=0; j<784; ++j) {
-    	__attribute__((opencl_unroll_hint(34)))
+    	__attribute__((opencl_unroll_hint(2)))
     	MAC1_1_1: for (i=0; i<100; ++i) {
+			// if ((j == 202) && (i == 0)) {
+			// 	printf("pre_z[%d]: %f\t",i,z[i]);
+			// 	printf("A[%d]: %f\t",i*784+j,A[i * 784 + j]);
+			// 	printf("local_in[%d]: %f\t",j,local_in[j]);
+			// }
       		z[i] += A[i * 784 + j] * local_in[j];
+			// if ((local_in[j] != 0) && (flag == 0)) {
+			// if ((i == 0) && (j == 202)) {
+			// 	printf("post_z[%d]: %f\n",i,z[i]);
+			// 	flag++;
+			// }
     	}
   	}
 
-	/*ADD + RELU*/
-	__attribute__((opencl_unroll_hint(34)))
-	MAC1_1_2: for (i=0; i<100; ++i)
-		if (z[i] <= 0.0) 
-			z[i] = 0.0;
-}
 	// for (i=0; i<100; ++i) 
 	// 	printf("z[%d]: %f\t",i,z[i]);
 
+	/*ADD + RELU*/
+	__attribute__((opencl_unroll_hint(2)))
+	MAC1_1_2: for (i=0; i<100; ++i) {
+		if (z[i] <= 0.0) 
+			z[i] = 0.0;
+		// printf("z[%d]: %f\t",i,z[i]);
+	}
+}
   	// __attribute__((xcl_pipeline_loop(1)))
   	// WB_1: for(int j = 0; j < 100; j++)
     // 	// m_[720016+j] = z[j];
@@ -81,22 +93,35 @@ float *zz) {
   	//}
 	int i, j;
 
+	// for (i=0; i<100; ++i) 
+	// 	printf("z[%d]: %f\t",i,z[i]);
+
 	__attribute__((xcl_pipeline_loop(1)))
   	MAC1_ADD_2: for (i=0; i<100; ++i)
   		zz[i] = m_[88500+i];
 
   	__attribute__((xcl_pipeline_loop))
   	MAC1_2: for (j=0; j<100; ++j) {
-  		__attribute__((opencl_unroll_hint(34)))
+  		__attribute__((opencl_unroll_hint(2)))
   		MAC1_2_1: for (i=0; i<100; ++i) {
+			// if ((i == 0) && (j == 0)) {
+			// 	printf("pre_zz[%d]: %f\n",i,zz[i]);
+			// 	printf("AA[%d]: %f\n",i*100+j,AA[i * 100 + j]);
+			// 	printf("z[%d]: %f\n",j,z[j]);
+			// }
   			zz[i] += AA[i * 100 + j] * z[j];
+			// if ((i == 0) && (j == 0)) {
+			// 	printf("post_zz[%d]: %f\n",i,zz[i]);
+			// }
   		}
 	}
 	//ADD + RELU
-	__attribute__((opencl_unroll_hint(34)))
-	MAC1_2_2: for (i=0; i<100; i++)
+	__attribute__((opencl_unroll_hint(2)))
+	MAC1_2_2: for (i=0; i<100; i++) {
+		// printf("zz[%d]: %f\t",i,zz[i]);
 		if (zz[i] <= 0.0) 
 			zz[i] = 0.0;
+	}
 }
 
 	// __attribute__((xcl_pipeline_loop(1)))
@@ -111,7 +136,7 @@ float *AAA,
 float *zz) {
   	// MAC1
   	// __local 
-	float zzz[10] __attribute__((xcl_array_partition(complete,1)));;
+	float zzz[10] __attribute__((xcl_array_partition(complete,1)));
 	int i, j;
 
 	__attribute__((xcl_pipeline_loop(1)))
@@ -121,7 +146,7 @@ float *zz) {
 
   	__attribute__((xcl_pipeline_loop))
   	MAC1_3: for (j=0; j<100; ++j) {
-  		__attribute__((opencl_unroll_hint(10)))
+  		__attribute__((opencl_unroll_hint(2)))
   		MAC1_3_1: for (i=0; i<10; ++i) {
   			zzz[i] += AAA[i * 100 + j] * zz[j];
   			// zzz[i] += m_[88600+ i * 100 + j] * zz[j];
@@ -143,16 +168,22 @@ float *zz) {
   	float max=zzz[0], sum=0.0;
   	__attribute__((xcl_pipeline_loop))
   	SOFTMAX_1: for (i=1; i<10; ++i) {
+		// printf("zzz[%d]: %f\t",i,zzz[i]);
   		if (max < zzz[i]) {
   			max = zzz[i];
   		}
   	}
 
 	float exp_z[10], exp_max=(float)exp(max);
+
+	__attribute__((opencl_unroll_hint(2)))
+  	EXP_Z_PRE: for (i=0; i<10; ++i) {
+		exp_z[i] = -max;
+  	}
   	
-	__attribute__((opencl_unroll_hint(10)))
+	__attribute__((opencl_unroll_hint(2)))
   	EXP_Z: for (i=0; i<10; ++i) {
-		exp_z[i] = (float)exp(zzz[i]);
+		exp_z[i] += (float)exp(zzz[i]);
   	}
 
   	__attribute__((xcl_pipeline_loop))
@@ -161,11 +192,11 @@ float *zz) {
   		// sum += (float)exp(zzz[i]-max);
 		sum += exp_z[i];
   	}
-
+	//printf("Sum, exp_max:%f %f\n", sum, exp_max);
 	sum /= exp_max;
 
   	//__attribute__((opencl_unroll_hint(10)))
-	__attribute__((nounroll))
+	//__attribute__((nounroll))
 	__attribute__((xcl_pipeline_loop))
   	WB_3:for (i=0; i<10; ++i) {
   		zzz[i] = exp_z[i]/sum;
@@ -188,7 +219,7 @@ int x_size, int z_size, int test_n) {
 	
 	int x_offset=0, z_offset=0;
   	// __local 
-	float A[78400] __attribute__((xcl_array_partition(block,100,1)));
+	float A[78400] __attribute__((xcl_array_partition(block,784,1)));
   	__attribute__((xcl_pipeline_loop(1)))
   	RD_A: for(int j = 0; j < 78400; j++){
     	A[j] = m_[j];
@@ -203,7 +234,7 @@ int x_size, int z_size, int test_n) {
   	}
 
   	// __local 
-	float AAA[1000] __attribute__((xcl_array_partition(block,10,1)));
+	float AAA[1000] __attribute__((xcl_array_partition(block,100,1)));
   	__attribute__((xcl_pipeline_loop(1)))
   	RD_AAA: for(int j = 0; j < 1000; j++){
   		// AAA[j] = m_[j+354400];

@@ -62,14 +62,15 @@ PLATFORM_BLOCKLIST += nodma
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/hostBUP2.cpp 
+#HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps #--config compile.cfg
+VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps --config compile.cfg #--optimize 3
 
 
 EXECUTABLE = ./ocl_gravity
@@ -89,7 +90,9 @@ build: check-vitis check-device $(BUILD_DIR)/mmult.xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/activate.xo: src/mmult.cl
+#$(TEMP_DIR)/activate.xo: src/mmultBUP4.cl
+$(TEMP_DIR)/activate.xo: src/mmultBUP3.cl
+#$(TEMP_DIR)/activate.xo: src/mmult.cl
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k run_activate --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 

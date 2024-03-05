@@ -7,7 +7,7 @@ PROFILE := yes
 
 #Generates profile summary report
 ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile.data all:all:all #--config link.cfg #--kernel_frequency 0:370
+VPP_LDFLAGS += --profile.data all:all:all --kernel_frequency 0:150 #--optimize 3 --config link.cfg 
 endif
 
 DEBUG := no
